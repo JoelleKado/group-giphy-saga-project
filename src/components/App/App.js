@@ -7,6 +7,8 @@ class App extends Component {
     gifSearch: ''
   }
 
+  // TODO -- DISPATCH TO SAGA 
+
   handleChange = (event) => {
     this.setState({
       gifSearch: event.target.value
