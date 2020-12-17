@@ -8,20 +8,48 @@ import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
-const searchReducer = (state, action) => {
-    // WHERE WE STORE SEARCH RESULTS TO RENDER ON DOM 
-}
 
 function* watcherSaga() {
     // FETCH-API and make a function to FETCH from API
     // Handle what the user searches 
+    
+        yield takeEvery('FETCH_SEARCH', fetchSearch);
+        //yield takeEvery('ADD_FRUIT', postFruit)
+    
 }
 
+function* fetchSearch(){
+    
+    console.log('in fetchGiphy saga');
+    try {
+        const searchResponse = yield axios.get('/api/category');
+    //   const searchURL = searchResponse.data.data.url;
+        console.log('this is our URL for the Gif', searchResponse);
+       
+        yield put({ type:'SET_SEARCH', payload: searchResponse.data})
+    } catch (error) {
+        console.log('error fetching', error);
+        
+    }
+}
 // TODO - Function to GET API GIFS 
 
 //TODO - Function to POST what the user searches
 
 const sagaMiddleware = createSagaMiddleware();
+
+const searchReducer = (state = [], action) => {
+    // WHERE WE STORE SEARCH RESULTS TO RENDER ON DOM
+    if(action.type === 'SET_SEARCH') {
+        return action.payload;
+        
+    }
+    console.log(1);
+    
+    return state;
+    
+
+}
 
 const storeInstance = createStore(
     combineReducers({
