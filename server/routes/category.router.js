@@ -5,32 +5,6 @@ const router = express.Router();
 
 require('dotenv').config();
 
-router.get('/', (req, res) => {
-    let giphyKey = process.env.GIPHY_API_KEY;
-    console.log('categoryRouterLine10', req.body);
-
-
-    axios.get(`http://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${req.body}&limit=10`)
-        .then(response => {
-            console.log('This is response', response.data.data)
-            res.send(response.data.data)
-        })
-        .catch(err => {
-            console.log('Error in giphy search get', err)
-            res.sendStatus(500)
-        })
-})
-
-router.post('/', (req, res) => {
-    let giphyKey = process.env.GIPHY_API_KEY;
-    axios.post(`http://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${req.body}&limit=10`)
-        .then(response => {
-            res.sendStatus(200)
-        })
-        .catch(error => {
-            console.log('Error in router.post', error)
-        })
-})
 
 router.get('/', (req, res) => {
     // return all categories
@@ -45,5 +19,17 @@ router.get('/', (req, res) => {
             res.sendStatus(500);
         });
 });
+
+router.get('/:search', (req, res) => {
+    let giphyKey = process.env.GIPHY_API_KEY;
+    axios.get(`http://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${req.params.search}&limit=10`)
+        .then(response => {
+            res.send(response.data.data)
+        })
+        .catch(err => {
+            console.log('Error in giphy search get', err)
+            res.sendStatus(500)
+        })
+})
 
 module.exports = router;
