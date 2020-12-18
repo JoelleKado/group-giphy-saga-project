@@ -14,30 +14,31 @@ function* watcherSaga() {
     // Handle what the user searches 
 
     yield takeEvery('FETCH_SEARCH', fetchSearch);
-    yield takeEvery('POST_SEARCH', postSearch);
+    // yield takeEvery('POST_SEARCH', postSearch);
 
     //yield takeEvery('ADD_FRUIT', postFruit)
 
 }
 
-function* postSearch(action) {
-    console.log('in postSearch Saga');
-    try {
-        yield axios.post('/api/category', action.payload)
-        yield put({ type: 'FETCH_SEARCH' })
-    } catch (error) {
-        console.log('error in postSearch index js', error);
-    }
+// function* postSearch(action) {
+//     console.log('in postSearch Saga');
+//     try {
+//         console.log('Action payload =======================', action.payload)
+//         yield axios.post('/api/category', action.payload)
+//         yield put({ type: 'FETCH_SEARCH' })
+//     } catch (error) {
+//         console.log('error in postSearch index js', error);
+//     }
 
-}
+// }
 
-function* fetchSearch() {
+function* fetchSearch(action) {
 
     console.log('in fetchGiphy saga');
     try {
-        const searchResponse = yield axios.get('/api/category');
+        const searchResponse = yield axios.get(`/api/category/${action.payload}`);
         //   const searchURL = searchResponse.data.data.url;
-        console.log('this is our URL for the Gif', searchResponse.data);
+        // console.log('this is our URL for the Gif', searchResponse.data);
 
         yield put({ type: 'SET_SEARCH', payload: searchResponse.data })
     } catch (error) {
@@ -57,11 +58,8 @@ const searchReducer = (state = [], action) => {
         return action.payload;
 
     }
-    console.log(1);
-
+    console.log('This is sate ')
     return state;
-
-
 }
 
 const storeInstance = createStore(

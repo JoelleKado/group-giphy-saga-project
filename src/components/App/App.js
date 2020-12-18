@@ -22,8 +22,8 @@ class App extends Component {
   }
 
   sendSearch() {
-    this.props.dispatch({ type: 'POST_SEARCH', payload: this.state });
-    this.props.dispatch({ type: 'FETCH_SEARCH' });
+    // this.props.dispatch({ type: 'POST_SEARCH', payload: this.state.gifSearch });
+    this.props.dispatch({ type: 'FETCH_SEARCH', payload: this.state.gifSearch });
   }
 
 
