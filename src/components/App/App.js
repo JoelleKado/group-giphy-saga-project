@@ -8,6 +8,11 @@ class App extends Component {
     gifSearch: ''
   }
 
+  componentDidMount(){
+    console.log('compnent did mount');
+    
+  };
+
   // TODO -- DISPATCH TO SAGA 
 
   handleChange = (event) => {
@@ -17,8 +22,11 @@ class App extends Component {
   }
 
   sendSearch() {
-    this.props.dispatch({ type: 'FETCH_SEARCH', payload: this.state });
+    this.props.dispatch({ type: 'POST_SEARCH', payload: this.state });
+    this.props.dispatch({type: 'FETCH_SEARCH'});
 }
+
+  
 
   render() {
     return (

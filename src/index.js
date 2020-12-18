@@ -14,7 +14,14 @@ function* watcherSaga() {
     // Handle what the user searches 
     
         yield takeEvery('FETCH_SEARCH', fetchSearch);
+        yield takeEvery('POST_SEARCH', postSearch);
+
         //yield takeEvery('ADD_FRUIT', postFruit)
+    
+}
+
+function * postSearch() {
+    console.log('in postSearch Saga');
     
 }
 
@@ -24,7 +31,7 @@ function* fetchSearch(){
     try {
         const searchResponse = yield axios.get('/api/category');
     //   const searchURL = searchResponse.data.data.url;
-        console.log('this is our URL for the Gif', searchResponse);
+        console.log('this is our URL for the Gif', searchResponse.data);
        
         yield put({ type:'SET_SEARCH', payload: searchResponse.data})
     } catch (error) {

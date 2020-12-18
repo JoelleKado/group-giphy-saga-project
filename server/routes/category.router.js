@@ -7,6 +7,8 @@ require('dotenv').config();
 
 router.get('/', (req, res) => {
     let giphyKey = process.env.GIPHY_API_KEY;
+    console.log('categoryRouterLine10', req.body);
+    
     
     axios.get(`http://api.giphy.com/v1/gifs/search?api_key=${giphyKey}&q=${req.body}`)
         .then(response => {
