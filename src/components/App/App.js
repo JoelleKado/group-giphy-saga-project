@@ -8,9 +8,9 @@ class App extends Component {
     gifSearch: ''
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('compnent did mount');
-    
+
   };
 
   // TODO -- DISPATCH TO SAGA 
@@ -23,18 +23,29 @@ class App extends Component {
 
   sendSearch() {
     this.props.dispatch({ type: 'POST_SEARCH', payload: this.state });
-    this.props.dispatch({type: 'FETCH_SEARCH'});
-}
+    this.props.dispatch({ type: 'FETCH_SEARCH' });
+  }
 
-  
+
 
   render() {
+    console.log('This is redux state', this.props.reduxState)
     return (
       <div>
         <h1>Giphy Search!</h1>
-        RS: {JSON.stringify(this.props.reduxState)};
         <input onChange={this.handleChange} type='text' placeholder='Search for a gif!' />
-        <button onClick={(event)=>this.sendSearch(event)}>SEARCH</button>
+        <button onClick={(event) => this.sendSearch(event)}>SEARCH</button>
+        <ul>
+          {
+            this.props.reduxState.searchReducer.map((gif, pos) => {
+              return (
+                <>
+                  <img key={gif.pos} alt='Gif' src={gif.images.fixed_height_small.url} />
+                </>
+              )
+            })
+          }
+        </ul>
       </div>
     );
   }

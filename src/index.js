@@ -12,31 +12,37 @@ import axios from 'axios';
 function* watcherSaga() {
     // FETCH-API and make a function to FETCH from API
     // Handle what the user searches 
-    
-        yield takeEvery('FETCH_SEARCH', fetchSearch);
-        yield takeEvery('POST_SEARCH', postSearch);
 
-        //yield takeEvery('ADD_FRUIT', postFruit)
-    
+    yield takeEvery('FETCH_SEARCH', fetchSearch);
+    yield takeEvery('POST_SEARCH', postSearch);
+
+    //yield takeEvery('ADD_FRUIT', postFruit)
+
 }
 
-function * postSearch() {
+function* postSearch(action) {
     console.log('in postSearch Saga');
-    
+    try {
+        yield axios.post('/api/category', action.payload)
+        yield put({ type: 'FETCH_SEARCH' })
+    } catch (error) {
+        console.log('error in postSearch index js', error);
+    }
+
 }
 
-function* fetchSearch(){
-    
+function* fetchSearch() {
+
     console.log('in fetchGiphy saga');
     try {
         const searchResponse = yield axios.get('/api/category');
-    //   const searchURL = searchResponse.data.data.url;
+        //   const searchURL = searchResponse.data.data.url;
         console.log('this is our URL for the Gif', searchResponse.data);
-       
-        yield put({ type:'SET_SEARCH', payload: searchResponse.data})
+
+        yield put({ type: 'SET_SEARCH', payload: searchResponse.data })
     } catch (error) {
         console.log('error fetching', error);
-        
+
     }
 }
 // TODO - Function to GET API GIFS 
@@ -47,14 +53,14 @@ const sagaMiddleware = createSagaMiddleware();
 
 const searchReducer = (state = [], action) => {
     // WHERE WE STORE SEARCH RESULTS TO RENDER ON DOM
-    if(action.type === 'SET_SEARCH') {
+    if (action.type === 'SET_SEARCH') {
         return action.payload;
-        
+
     }
     console.log(1);
-    
+
     return state;
-    
+
 
 }
 
